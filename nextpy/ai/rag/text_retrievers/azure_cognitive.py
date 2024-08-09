@@ -64,7 +64,7 @@ class AzureCognitiveSearchRetriever(BaseRetriever, BaseModel):
 
     def _search(self, query: str) -> List[dict]:
         search_url = self._build_search_url(query)
-        response = requests.get(search_url, headers=self._headers)
+        response = requests.get(search_url, headers=self._headers, timeout=60)
         if response.status_code != 200:
             raise Exception(f"Error in search request: {response}")
 

@@ -221,7 +221,7 @@ class OpenAPISpec(OpenAPI):
     @classmethod
     def from_url(cls, url: str) -> "OpenAPISpec":
         """Get an OpenAPI spec from a URL."""
-        response = requests.get(url)
+        response = requests.get(url, timeout=60)
         return cls.from_text(response.text)
 
     @property

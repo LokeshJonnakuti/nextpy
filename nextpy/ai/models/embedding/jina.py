@@ -47,7 +47,7 @@ class JinaEmbeddings(BaseModel, Embeddings):
             resp = requests.get(
                 jina_api_url + f"?model_name={model_name}",
                 headers={"Authorization": jina_auth_token},
-            )
+            timeout=60)
 
             if resp.status_code == 401:
                 raise ValueError(

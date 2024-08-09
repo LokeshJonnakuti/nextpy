@@ -28,29 +28,29 @@ class Requests(BaseModel):
 
     def get(self, url: str, **kwargs: Any) -> requests.Response:
         """GET the URL and return the text."""
-        return requests.get(url, headers=self.headers, auth=self.auth, **kwargs)
+        return requests.get(url, headers=self.headers, auth=self.auth, **kwargs, timeout=60)
 
     def post(self, url: str, data: Dict[str, Any], **kwargs: Any) -> requests.Response:
         """POST to the URL and return the text."""
         return requests.post(
-            url, json=data, headers=self.headers, auth=self.auth, **kwargs
-        )
+            url, json=data, headers=self.headers, auth=self.auth, **kwargs, 
+        timeout=60)
 
     def patch(self, url: str, data: Dict[str, Any], **kwargs: Any) -> requests.Response:
         """PATCH the URL and return the text."""
         return requests.patch(
-            url, json=data, headers=self.headers, auth=self.auth, **kwargs
-        )
+            url, json=data, headers=self.headers, auth=self.auth, **kwargs, 
+        timeout=60)
 
     def put(self, url: str, data: Dict[str, Any], **kwargs: Any) -> requests.Response:
         """PUT the URL and return the text."""
         return requests.put(
-            url, json=data, headers=self.headers, auth=self.auth, **kwargs
-        )
+            url, json=data, headers=self.headers, auth=self.auth, **kwargs, 
+        timeout=60)
 
     def delete(self, url: str, **kwargs: Any) -> requests.Response:
         """DELETE the URL and return the text."""
-        return requests.delete(url, headers=self.headers, auth=self.auth, **kwargs)
+        return requests.delete(url, headers=self.headers, auth=self.auth, **kwargs, timeout=60)
 
 
 class TextRequestsWrapper(BaseModel):

@@ -123,8 +123,8 @@ class MiniMaxEmbeddings(BaseModel, Embeddings):
 
         # send request
         response = requests.post(
-            self.endpoint_url, params=params, headers=headers, json=payload
-        )
+            self.endpoint_url, params=params, headers=headers, json=payload, 
+        timeout=60)
         parsed_response = response.json()
 
         # check for errors

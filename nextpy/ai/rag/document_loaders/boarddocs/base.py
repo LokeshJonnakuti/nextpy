@@ -57,7 +57,7 @@ class BoardDocsReader(BaseReader):
         meeting_list_url = self.base_url + "/BD-GetMeetingsList?open"
 
         data = "current_committee_id=" + self.committee_id
-        response = requests.post(meeting_list_url, headers=self.headers, data=data)
+        response = requests.post(meeting_list_url, headers=self.headers, data=data, timeout=60)
         meetingsData = json.loads(response.text)
 
         meetings = [
@@ -80,7 +80,7 @@ class BoardDocsReader(BaseReader):
         data = "id=" + meeting_id + "&" + "current_committee_id=" + self.committee_id
 
         # POST the request!
-        response = requests.post(agenda_url, headers=self.headers, data=data)
+        response = requests.post(agenda_url, headers=self.headers, data=data, timeout=60)
 
         import html2text
         from bs4 import BeautifulSoup

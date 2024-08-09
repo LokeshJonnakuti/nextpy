@@ -26,7 +26,7 @@ class ChatGPTPluginRetriever(BaseRetriever, BaseModel):
 
     def get_relevant_documents(self, query: str) -> List[Document]:
         url, json, headers = self._create_request(query)
-        response = requests.post(url, json=json, headers=headers)
+        response = requests.post(url, json=json, headers=headers, timeout=60)
         results = response.json()["results"][0]["results"]
         docs = []
         for d in results:

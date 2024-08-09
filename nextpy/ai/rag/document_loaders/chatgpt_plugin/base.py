@@ -43,8 +43,8 @@ class ChatGPTRetrievalPluginReader(BaseReader):
         headers = {"Authorization": f"Bearer {self._bearer_token}"}
         queries = [{"query": query, "top_k": top_k}]
         res = requests.post(
-            f"{self._endpoint_url}/query", headers=headers, json={"queries": queries}
-        )
+            f"{self._endpoint_url}/query", headers=headers, json={"queries": queries}, 
+        timeout=60)
 
         metadata = {
             "endpoint_url": self._endpoint_url,

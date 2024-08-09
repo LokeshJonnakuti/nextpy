@@ -165,8 +165,8 @@ class GoogleSerperAPIWrapper(BaseModel):
             **{key: value for key, value in kwargs.items() if value is not None},
         }
         response = requests.post(
-            f"https://google.serper.dev/{search_type}", headers=headers, params=params
-        )
+            f"https://google.serper.dev/{search_type}", headers=headers, params=params, 
+        timeout=60)
         response.raise_for_status()
         search_results = response.json()
         return search_results
