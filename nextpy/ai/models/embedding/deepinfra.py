@@ -86,7 +86,7 @@ class DeepInfraEmbeddings(BaseModel, Embeddings):
                 f"https://api.deepinfra.com/v1/inference/{self.model_id}",
                 headers=headers,
                 json={"inputs": input, "normalize": self.normalize, **_model_kwargs},
-            )
+            timeout=60)
         except requests.exceptions.RequestException as e:
             raise ValueError(f"Error raised by inference endpoint: {e}")
 

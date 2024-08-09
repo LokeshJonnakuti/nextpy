@@ -64,7 +64,7 @@ def load(engine_file):
         with open(engine_file, "r") as f:
             template = f.read()
     elif engine_file.startswith("http://") or engine_file.startswith("https://"):
-        template = requests.get(engine_file).text
+        template = requests.get(engine_file, timeout=60).text
     else:
         raise ValueError("Invalid engine file: %s" % engine_file)
 

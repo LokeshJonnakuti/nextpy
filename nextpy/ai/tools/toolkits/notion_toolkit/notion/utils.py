@@ -55,8 +55,8 @@ class NotionPageReader:
             query_dict: Dict[str, Any] = {}
 
             res = requests.request(
-                "GET", block_url, headers=self.headers, json=query_dict
-            )
+                "GET", block_url, headers=self.headers, json=query_dict, 
+            timeout=60)
             data = res.json()
 
             for result in data["results"]:
@@ -104,7 +104,7 @@ class NotionPageReader:
             DATABASE_URL_TMPL.format(database_id=database_id),
             headers=self.headers,
             json=query_dict,
-        )
+        timeout=60)
         data = res.json()
         page_ids = []
         for result in data["results"]:
@@ -124,7 +124,7 @@ class NotionPageReader:
             }
             if next_cursor is not None:
                 query_dict["start_cursor"] = next_cursor
-            res = requests.post(SEARCH_URL, headers=self.headers, json=query_dict)
+            res = requests.post(SEARCH_URL, headers=self.headers, json=query_dict, timeout=60)
             data = res.json()
             for result in data["results"]:
                 page_id = result["id"]

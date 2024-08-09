@@ -120,7 +120,7 @@ class SearchData(NotionBase):
             if property is not None:
                 payload["filter"]["property"] = property
 
-        response = requests.post(SEARCH_URL, json=payload, headers=self.reader.headers)
+        response = requests.post(SEARCH_URL, json=payload, headers=self.reader.headers, timeout=60)
         response_json = response.json()
         response_results = response_json["results"]
         return response_results

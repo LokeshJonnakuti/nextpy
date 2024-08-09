@@ -39,7 +39,7 @@ class DataberryRetriever(BaseRetriever):
                     else {}
                 ),
             },
-        )
+        timeout=60)
         data = response.json()
         return [
             Document(

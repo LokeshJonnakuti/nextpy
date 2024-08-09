@@ -41,7 +41,7 @@ class MangoppsGuidesReader(BaseReader):
         guides_pages = {}
         for url in fetched_urls:
             try:
-                response = requests.get(url)
+                response = requests.get(url, timeout=60)
                 soup = BeautifulSoup(response.content, "html.parser")
 
                 page_title = soup.find("title").text
@@ -117,7 +117,7 @@ class MangoppsGuidesReader(BaseReader):
         import requests
         from bs4 import BeautifulSoup
 
-        response = requests.get(url)
+        response = requests.get(url, timeout=60)
         soup = BeautifulSoup(response.content, "html.parser")
 
         self.visited.append(url)

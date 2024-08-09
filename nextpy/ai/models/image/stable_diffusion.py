@@ -87,7 +87,7 @@ class StableDiffusion(BaseImageModel):
             self.url,
             headers=headers,
             json=body,
-        )
+        timeout=60)
 
         if response.status_code != 200:
             raise Exception("Non-200 response: " + str(response.text))

@@ -70,8 +70,8 @@ class ListAction(BaseZapier):
 
     def list_actions(self):
         response = requests.get(
-            "https://nla.zapier.com/api/v1/dynamic/exposed/", headers=self._headers
-        )
+            "https://nla.zapier.com/api/v1/dynamic/exposed/", headers=self._headers, 
+        timeout=60)
         return response.text
 
     def run(self):
@@ -91,7 +91,7 @@ class NaturalLanguageQuery(BaseZapier):
             ACTION_URL_TMPL.format(action_id=id),
             headers=self._headers,
             data=json.dumps(kwargs),
-        )
+        timeout=60)
         return response.text
 
     def run(self, id: str, **kwargs):

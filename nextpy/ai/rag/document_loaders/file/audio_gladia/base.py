@@ -92,7 +92,7 @@ class GladiaAudioTranscriber(BaseReader):
             "https://api.gladia.io/audio/text/audio-transcription/",
             headers=headers,
             files=files,
-        )
+        timeout=60)
         response_dict = response.json()
         transcript = response_dict["prediction"]
 
