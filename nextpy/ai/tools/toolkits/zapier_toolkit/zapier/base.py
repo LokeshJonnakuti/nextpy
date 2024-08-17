@@ -10,6 +10,7 @@ import requests
 from pydantic import BaseModel, Field
 
 from nextpy.ai.tools.basetool import BaseTool
+from security import safe_requests
 
 ACTION_URL_TMPL = "https://nla.zapier.com/api/v1/dynamic/exposed/{action_id}/execute/"
 
@@ -69,7 +70,7 @@ class ListAction(BaseZapier):
     description: str = "Description of the method"
 
     def list_actions(self):
-        response = requests.get(
+        response = safe_requests.get(
             "https://nla.zapier.com/api/v1/dynamic/exposed/", headers=self._headers
         )
         return response.text

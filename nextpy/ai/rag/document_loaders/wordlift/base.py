@@ -12,6 +12,7 @@ from bs4 import BeautifulSoup
 
 from nextpy.ai.rag.document_loaders.basereader import BaseReader
 from nextpy.ai.schema import DocumentNode
+from security import safe_requests
 
 DATA_KEY = "data"
 ERRORS_KEY = "errors"
@@ -214,7 +215,7 @@ def is_valid_html(content: str) -> bool:
         return False
 
     if is_url(content):
-        response = requests.get(content)
+        response = safe_requests.get(content)
         if response.status_code == 200:
             html_content = response.text
             return BeautifulSoup(html_content, "html.parser").find("html") is not None
@@ -242,7 +243,7 @@ def clean_html(text: str) -> str:
         return str(text)
     if isinstance(text, str):
         if is_url(text):
-            response = requests.get(text)
+            response = safe_requests.get(text)
             if response.status_code == 200:
                 html_content = response.text
                 soup = BeautifulSoup(html_content, "html.parser")

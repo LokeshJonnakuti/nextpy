@@ -6,10 +6,9 @@ import datetime
 import json
 from typing import List, Optional
 
-import requests
-
 from nextpy.ai.rag.document_loaders.basereader import BaseReader
 from nextpy.ai.schema import DocumentNode
+from security import safe_requests
 
 
 def _get_readwise_data(api_key: str, updated_after: Optional[datetime.datetime] = None):
@@ -23,7 +22,7 @@ def _get_readwise_data(api_key: str, updated_after: Optional[datetime.datetime] 
     result = []
     next_page = None
     while True:
-        response = requests.get(
+        response = safe_requests.get(
             url="https://readwise.io/api/v2/export/",
             params={
                 "pageCursor": next_page,

@@ -2,11 +2,11 @@
 # We have rigorously tested these modifications to ensure reliability and performance. Based on successful test results, we are confident in the quality and stability of these changes.
 
 import os
-import requests
 import inspect
 import json
 import re
 import asyncio
+from security import safe_requests
 
 
 def load(engine_file):
@@ -21,7 +21,7 @@ def load(engine_file):
         with open(engine_file, "r") as f:
             return f.read()
     elif engine_file.startswith("http://") or engine_file.startswith("https://"):
-        return requests.get(engine_file).text
+        return safe_requests.get(engine_file).text
     else:
         raise ValueError("Invalid engine file: %s" % engine_file)
 

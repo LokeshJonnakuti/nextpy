@@ -8,11 +8,11 @@ import json
 from typing import Dict, List, Optional
 
 import aiohttp
-import requests
 from pydantic import BaseModel, Extra, root_validator
 
 from nextpy.ai.schema import BaseRetriever, Document
 from nextpy.utils.data_ops import get_from_dict_or_env
+from security import safe_requests
 
 
 class AzureCognitiveSearchRetriever(BaseRetriever, BaseModel):
@@ -64,7 +64,7 @@ class AzureCognitiveSearchRetriever(BaseRetriever, BaseModel):
 
     def _search(self, query: str) -> List[dict]:
         search_url = self._build_search_url(query)
-        response = requests.get(search_url, headers=self._headers)
+        response = safe_requests.get(search_url, headers=self._headers)
         if response.status_code != 200:
             raise Exception(f"Error in search request: {response}")
 

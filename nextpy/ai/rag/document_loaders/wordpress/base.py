@@ -7,6 +7,7 @@ from typing import List
 
 from nextpy.ai.rag.document_loaders.basereader import BaseReader
 from nextpy.ai.schema import DocumentNode
+from security import safe_requests
 
 
 class WordpressReader(BaseReader):
@@ -76,11 +77,10 @@ class WordpressReader(BaseReader):
         return posts
 
     def get_posts_page(self, current_page: int = 1):
-        import requests
 
         url = f"{self.url}/wp-json/wp/v2/posts?per_page=100&page={current_page}"
 
-        response = requests.get(url)
+        response = safe_requests.get(url)
         headers = response.headers
 
         if "X-WP-TotalPages" in headers:
