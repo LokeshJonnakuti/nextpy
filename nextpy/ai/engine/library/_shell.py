@@ -5,6 +5,7 @@ import subprocess
 import os
 import subprocess
 import asyncio
+from security import safe_command
 
 
 def shell(command, safe=True, _parser_context=None):
@@ -37,7 +38,7 @@ def shell(command, safe=True, _parser_context=None):
     all_output = "\n"
     partial_output(all_output)
     try:
-        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        process = safe_command.run(subprocess.Popen, command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         while True:
             output = process.stdout.readline().decode("utf-8") 
             all_output += output
@@ -104,8 +105,7 @@ class Shell:
         self.shell_cmd = os.environ.get('SHELL', '/bin/sh')
         self.master_fd, self.slave_fd = pty.openpty()
         my_env = os.environ.copy()
-        self.p = subprocess.Popen(
-            self.shell_cmd,
+        self.p = safe_command.run(subprocess.Popen, self.shell_cmd,
             preexec_fn=os.setsid,
             stdin=self.slave_fd,
             stdout=self.slave_fd,

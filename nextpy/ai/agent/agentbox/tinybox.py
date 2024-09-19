@@ -31,6 +31,7 @@ from websockets.sync.client import connect as ws_connect_sync
 from nextpy.ai.agentbox import BaseBox
 from nextpy.ai.config import settings
 from nextpy.ai.schema import AgentBoxFile, AgentBoxOutput, AgentBoxStatus
+from security import safe_command
 
 
 class TinyBox(BaseBox):
@@ -91,8 +92,7 @@ class TinyBox(BaseBox):
         self._check_installed()
         try:
             python = Path(sys.executable).absolute()
-            self.jupyter = subprocess.Popen(
-                [
+            self.jupyter = safe_command.run(subprocess.Popen, [
                     python,
                     "-m",
                     "jupyter",

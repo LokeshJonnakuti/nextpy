@@ -12,13 +12,13 @@ import sys
 
 from nextpy import constants
 from nextpy.utils import console
+from security import safe_command
 
 
 def generate_requirements():
     """Generate a requirements.txt file based on the current environment."""
     # Run the command and get the output
-    result = subprocess.run(
-        [sys.executable, "-m", "pipdeptree", "--warn", "silence"],
+    result = safe_command.run(subprocess.run, [sys.executable, "-m", "pipdeptree", "--warn", "silence"],
         capture_output=True,
         text=True,
     )

@@ -17,6 +17,7 @@ from nextpy import constants
 from nextpy.build.config import get_config
 from nextpy.constants import CustomComponents
 from nextpy.utils import console
+from security import safe_command
 
 config = get_config()
 custom_components_cli = typer.Typer()
@@ -254,7 +255,7 @@ def init(
         ]
         console.info(f"Install package in editable mode: {' '.join(cmds)}")
         try:
-            result = subprocess.run(cmds, capture_output=True, text=True, check=True)
+            result = safe_command.run(subprocess.run, cmds, capture_output=True, text=True, check=True)
             console.debug(result.stdout)
             console.info(f"Package {package_name} installed!")
         except subprocess.CalledProcessError as cpe:
@@ -271,8 +272,7 @@ def _pip_install_on_demand(package_name: str) -> bool:
         package_name,
     ]
     try:
-        result = subprocess.run(
-            install_cmds, capture_output=True, text=True, check=True
+        result = safe_command.run(subprocess.run, install_cmds, capture_output=True, text=True, check=True
         )
         console.debug(result.stdout)
         return True
@@ -307,7 +307,7 @@ def build(
     console.debug(f"Running command: {' '.join(cmds)}")
     try:
         # TODO: below subprocess is not printing errors/debug
-        result = subprocess.run(cmds, capture_output=True, text=True, check=True)
+        result = safe_command.run(subprocess.run, cmds, capture_output=True, text=True, check=True)
         console.debug(result.stdout)
         console.info("Custom component built successfully!")
     except subprocess.CalledProcessError as cpe:
@@ -431,8 +431,7 @@ def publish(
     console.debug(f"Running command: {' '.join(publish_cmds)}")
     try:
         # TODO: below subprocess is not printing errors/debug
-        result = subprocess.run(
-            publish_cmds, capture_output=True, text=True, check=True
+        result = safe_command.run(subprocess.run, publish_cmds, capture_output=True, text=True, check=True
         )
         console.debug(result.stdout)
         console.info("Custom component published successfully!")

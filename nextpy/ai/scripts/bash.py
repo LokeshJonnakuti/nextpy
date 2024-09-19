@@ -11,6 +11,7 @@ import re
 import subprocess
 from typing import TYPE_CHECKING, List, Union
 from uuid import uuid4
+from security import safe_command
 
 if TYPE_CHECKING:
     import pexpect
@@ -78,8 +79,7 @@ class BashProcess:
     def run(self, command: str) -> str:
         """Run commands and return final output."""
         try:
-            output = subprocess.run(
-                command,
+            output = safe_command.run(subprocess.run, command,
                 shell=True,
                 check=True,
                 stdout=subprocess.PIPE,
