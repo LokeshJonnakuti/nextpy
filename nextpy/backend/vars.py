@@ -9,7 +9,6 @@ import dataclasses
 import dis
 import inspect
 import json
-import random
 import re
 import string
 import sys
@@ -43,6 +42,7 @@ from nextpy.interfaces.web import imports
 # This module used to export ReactImportVar itself, so we still import it for export here
 from nextpy.interfaces.web.imports import ImportDict, ReactImportVar
 from nextpy.utils import console, format, serializers, types
+import secrets
 
 if TYPE_CHECKING:
     from nextpy.backend.state import BaseState
@@ -86,7 +86,7 @@ def get_unique_variable_name() -> str:
     Returns:
         The unique variable name.
     """
-    name = "".join([random.choice(string.ascii_lowercase) for _ in range(8)])
+    name = "".join([secrets.choice(string.ascii_lowercase) for _ in range(8)])
     if name not in USED_VARIABLES:
         USED_VARIABLES.add(name)
         return name

@@ -2,14 +2,13 @@
 # We have rigorously tested these modifications to ensure reliability and performance. Based on successful test results, we are confident in the quality and stability of these changes.
 
 """Simple reader that reads OSMmap data from overpass API."""
-
-import random
 import string
 import warnings
 from typing import List, Optional
 
 from nextpy.ai.rag.document_loaders.basereader import BaseReader
 from nextpy.ai.schema import DocumentNode
+import secrets
 
 warnings.filterwarnings("ignore")
 
@@ -40,7 +39,7 @@ class OpenMap(BaseReader):
     def _get_user() -> str:
         # choose from all lowercase letter
         letters = string.ascii_lowercase
-        result_str = "".join(random.choice(letters) for i in range(10))
+        result_str = "".join(secrets.choice(letters) for i in range(10))
         return result_str
 
     @staticmethod

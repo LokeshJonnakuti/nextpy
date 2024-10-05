@@ -1,7 +1,7 @@
 # This file has been modified by the Nextpy Team in 2023 using AI tools and automation scripts. 
 # We have rigorously tested these modifications to ensure reliability and performance. Based on successful test results, we are confident in the quality and stability of these changes.
 
-import random
+import secrets
 
 class Random():
     def __init__(self, items, k=1):
@@ -18,7 +18,7 @@ class Random():
     def __call__(self):
         ''' Selects a random set of instances.
         '''
-        return random.choice(self.items, k=self.k)
+        return secrets.choice(self.items, k=self.k)
     
 class NGramOverlap():
     def __init__(self, items, k=1):

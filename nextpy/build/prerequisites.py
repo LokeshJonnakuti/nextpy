@@ -10,7 +10,6 @@ import importlib
 import json
 import os
 import platform
-import random
 import re
 import stat
 import sys
@@ -33,6 +32,7 @@ from nextpy.build.compiler import templates
 from nextpy.build.config import get_config
 from nextpy.utils import console, path_ops
 from nextpy.build import processes
+import secrets
 
 
 def check_latest_package_version(package_name: str):
@@ -419,7 +419,7 @@ def init_nextpy_json(project_hash: int | None):
         console.debug(f"Project hash is already set to {project_hash}.")
     else:
         # Get a random project hash.
-        project_hash = random.getrandbits(128)
+        project_hash = secrets.SystemRandom().getrandbits(128)
         console.debug(f"Setting project hash to {project_hash}.")
 
     # Write the hash and version to the nextpy json file.

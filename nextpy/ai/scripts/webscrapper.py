@@ -1,13 +1,13 @@
 # This file has been modified by the Nextpy Team in 2023 using AI tools and automation scripts. 
 # We have rigorously tested these modifications to ensure reliability and performance. Based on successful test results, we are confident in the quality and stability of these changes.
 
-import random
 import re
 from typing import Type
 
 import requests
 from bs4 import BeautifulSoup
 from pydantic import BaseModel, Field
+import secrets
 
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
@@ -49,7 +49,7 @@ class WebScraperTool(BaseTool):
         return content[:max_length]
 
     def extract_with_bs4(self, url):
-        headers = {"User-Agent": random.choice(USER_AGENTS)}
+        headers = {"User-Agent": secrets.choice(USER_AGENTS)}
         try:
             response = requests.get(url, headers=headers, timeout=10)
             if response.status_code == 200:
