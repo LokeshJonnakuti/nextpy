@@ -33,7 +33,7 @@ class SlackToolkit(BaseToolkit):
     @validator("reader", pre=True, always=True)
     def set_reader(cls, v, values):
         # Create the SSLContext object here
-        ssl_context = ssl.SSLContext()
+        ssl_context = ssl.SSLContext(protocol=ssl.PROTOCOL_TLS_CLIENT)
         return SlackReader(
             slack_token=values.get("slack_token"),
             ssl=ssl_context,
