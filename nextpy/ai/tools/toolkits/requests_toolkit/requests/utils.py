@@ -7,6 +7,7 @@ from typing import Any, Dict, Optional
 import aiohttp
 import requests
 from pydantic import BaseModel, Extra
+from security import safe_requests
 
 
 class Requests(BaseModel):
@@ -28,7 +29,7 @@ class Requests(BaseModel):
 
     def get(self, url: str, **kwargs: Any) -> requests.Response:
         """GET the URL and return the text."""
-        return requests.get(url, headers=self.headers, auth=self.auth, **kwargs)
+        return safe_requests.get(url, headers=self.headers, auth=self.auth, **kwargs)
 
     def post(self, url: str, data: Dict[str, Any], **kwargs: Any) -> requests.Response:
         """POST to the URL and return the text."""

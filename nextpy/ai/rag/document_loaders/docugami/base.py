@@ -12,6 +12,7 @@ import requests
 
 from nextpy.ai.rag.document_loaders.basereader import BaseReader
 from nextpy.ai.schema import DocumentNode
+from security import safe_requests
 
 TD_NAME = "{http://www.w3.org/1999/xhtml}td"
 TABLE_NAME = "{http://www.w3.org/1999/xhtml}table"
@@ -164,7 +165,7 @@ class DocugamiReader(BaseReader):
         all_documents = []
 
         while url:
-            response = requests.get(
+            response = safe_requests.get(
                 url,
                 headers={"Authorization": f"Bearer {self.access_token}"},
             )

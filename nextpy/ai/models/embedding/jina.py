@@ -9,6 +9,7 @@ from pydantic import BaseModel, root_validator
 
 from nextpy.ai.models.embedding.base import Embeddings
 from nextpy.utils.data_ops import get_from_dict_or_env
+from security import safe_requests
 
 
 class JinaEmbeddings(BaseModel, Embeddings):
@@ -44,7 +45,7 @@ class JinaEmbeddings(BaseModel, Embeddings):
         jina_api_url = os.environ.get("JINA_API_URL", values["jina_api_url"])
         model_name = values["model_name"]
         try:
-            resp = requests.get(
+            resp = safe_requests.get(
                 jina_api_url + f"?model_name={model_name}",
                 headers={"Authorization": jina_auth_token},
             )

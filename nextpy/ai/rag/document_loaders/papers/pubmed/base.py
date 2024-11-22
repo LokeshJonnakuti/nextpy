@@ -6,6 +6,7 @@ from typing import List, Optional
 
 from nextpy.ai.rag.document_loaders.basereader import BaseReader
 from nextpy.ai.schema import DocumentNode
+from security import safe_requests
 
 
 class PubmedReader(BaseReader):
@@ -32,13 +33,11 @@ class PubmedReader(BaseReader):
         import xml.etree.ElementTree as xml
         from datetime import datetime
 
-        import requests
-
         pubmed_search = []
         parameters = {"tool": "tool", "email": "email", "db": "pmc"}
         parameters["term"] = search_query
         parameters["retmax"] = max_results
-        resp = requests.get(
+        resp = safe_requests.get(
             "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
             params=parameters,
         )
@@ -48,7 +47,7 @@ class PubmedReader(BaseReader):
             if elem.tag == "Id":
                 _id = elem.text
                 try:
-                    resp = requests.get(
+                    resp = safe_requests.get(
                         f"https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC{_id}/ascii"
                     )
                     info = resp.json()
@@ -109,13 +108,11 @@ class PubmedReader(BaseReader):
         import time
         import xml.etree.ElementTree as xml
 
-        import requests
-
         pubmed_search = []
         parameters = {"tool": "tool", "email": "email", "db": "pmc"}
         parameters["term"] = search_query
         parameters["retmax"] = max_results
-        resp = requests.get(
+        resp = safe_requests.get(
             "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
             params=parameters,
         )
@@ -127,7 +124,7 @@ class PubmedReader(BaseReader):
                 url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?id={_id}&db=pmc"
                 print(url)
                 try:
-                    resp = requests.get(url)
+                    resp = safe_requests.get(url)
                     info = xml.fromstring(resp.content)
 
                     raw_text = ""

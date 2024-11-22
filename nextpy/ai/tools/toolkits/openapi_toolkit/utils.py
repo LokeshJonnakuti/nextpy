@@ -9,8 +9,6 @@ import re
 from enum import Enum
 from pathlib import Path
 from typing import Dict, List, Optional, Union
-
-import requests
 import yaml
 from openapi_schema_pydantic import (
     Components,
@@ -24,6 +22,7 @@ from openapi_schema_pydantic import (
     Schema,
 )
 from pydantic import ValidationError
+from security import safe_requests
 
 logger = logging.getLogger(__name__)
 
@@ -221,7 +220,7 @@ class OpenAPISpec(OpenAPI):
     @classmethod
     def from_url(cls, url: str) -> "OpenAPISpec":
         """Get an OpenAPI spec from a URL."""
-        response = requests.get(url)
+        response = safe_requests.get(url)
         return cls.from_text(response.text)
 
     @property

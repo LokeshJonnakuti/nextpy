@@ -6,10 +6,9 @@ import json
 import logging
 from typing import Any, Dict, List, Optional
 
-import requests
-
 from nextpy.ai.rag.document_loaders.basereader import BaseReader
 from nextpy.ai.schema import DocumentNode
+from security import safe_requests
 
 logger = logging.getLogger(__name__)
 
@@ -173,7 +172,7 @@ class KalturaESearchReader(BaseReader):
             cap_json_url = self.client.caption.captionAsset.serveAsJson(
                 caption_asset_id
             )
-            cap_json = requests.get(cap_json_url).json()
+            cap_json = safe_requests.get(cap_json_url).json()
             return cap_json
         except Exception as e:
             logger.error(f"An error occurred while getting captions: {e}")
