@@ -4,7 +4,6 @@
 import types
 import sys
 import os
-import requests
 from . import library as commands
 from ._program import Program
 from . import llms
@@ -13,6 +12,7 @@ from ._utils import load, chain
 from . import selectors
 import nest_asyncio
 import asyncio
+from security import safe_requests
 
 # the user needs to set an LLM before they can use engine
 llm = None
@@ -64,7 +64,7 @@ def load(engine_file):
         with open(engine_file, "r") as f:
             template = f.read()
     elif engine_file.startswith("http://") or engine_file.startswith("https://"):
-        template = requests.get(engine_file).text
+        template = safe_requests.get(engine_file).text
     else:
         raise ValueError("Invalid engine file: %s" % engine_file)
 

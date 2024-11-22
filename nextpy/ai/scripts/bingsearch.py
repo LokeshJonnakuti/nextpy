@@ -9,11 +9,10 @@ In order to set this up, follow instructions at:
 https://levelup.gitconnected.com/api-tutorial-how-to-use-bing-web-search-api-in-python-4165d5592a7e
 """
 from typing import Dict, List
-
-import requests
 from pydantic import BaseModel, Extra, root_validator
 
 from nextpy.utils.data_ops import get_from_dict_or_env
+from security import safe_requests
 
 
 class BingSearchAPIWrapper(BaseModel):
@@ -40,7 +39,7 @@ class BingSearchAPIWrapper(BaseModel):
             "textDecorations": True,
             "textFormat": "HTML",
         }
-        response = requests.get(
+        response = safe_requests.get(
             self.bing_search_url, headers=headers, params=params  # type: ignore
         )
         response.raise_for_status()

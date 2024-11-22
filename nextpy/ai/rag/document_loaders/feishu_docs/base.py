@@ -10,6 +10,7 @@ import requests
 
 from nextpy.ai.rag.document_loaders.basereader import BaseReader
 from nextpy.ai.schema import DocumentNode
+from security import safe_requests
 
 # Copyright (2023) Bytedance Ltd. and/or its affiliates
 #
@@ -90,7 +91,7 @@ class FeishuDocsReader(BaseReader):
             "Authorization": "Bearer {}".format(self.tenant_access_token),
             "Content-Type": "application/json; charset=utf-8",
         }
-        response = requests.get(url, headers=headers)
+        response = safe_requests.get(url, headers=headers)
         return response.json()["data"]["content"]
 
     def _update_tenant_access_token(self):

@@ -7,6 +7,7 @@ from typing import Dict, List
 
 from nextpy.ai.rag.document_loaders.basereader import BaseReader
 from nextpy.ai.schema import DocumentNode
+from security import safe_requests
 
 ATOM_PUB_ENTRY_URL = "{root_endpoint}/entry"
 
@@ -64,14 +65,13 @@ class HatenaBlogReader(BaseReader):
         return articles
 
     def get_articles(self, url: str) -> Dict:
-        import requests
         from bs4 import BeautifulSoup
         from requests.auth import HTTPBasicAuth
 
         articles: List[Article] = []
         next_page = None
 
-        res = requests.get(url, auth=HTTPBasicAuth(self.username, self.api_key))
+        res = safe_requests.get(url, auth=HTTPBasicAuth(self.username, self.api_key))
         soup = BeautifulSoup(res.text, "xml")
         for entry in soup.find_all("entry"):
             if entry.find("app:control").find("app:draft").string == "yes":

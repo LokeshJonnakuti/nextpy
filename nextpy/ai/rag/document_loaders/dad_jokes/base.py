@@ -5,10 +5,9 @@
 
 from typing import List
 
-import requests
-
 from nextpy.ai.rag.document_loaders.basereader import BaseReader
 from nextpy.ai.schema import DocumentNode
+from security import safe_requests
 
 
 class DadJokesReader(BaseReader):
@@ -19,7 +18,7 @@ class DadJokesReader(BaseReader):
     """
 
     def _get_random_dad_joke(self):
-        response = requests.get(
+        response = safe_requests.get(
             "https://icanhazdadjoke.com/", headers={"Accept": "application/json"}
         )
         response.raise_for_status()

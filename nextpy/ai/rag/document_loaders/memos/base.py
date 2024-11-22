@@ -8,6 +8,7 @@ from urllib.parse import urljoin
 
 from nextpy.ai.rag.document_loaders.basereader import BaseReader
 from nextpy.ai.schema import DocumentNode
+from security import safe_requests
 
 
 class MemosReader(BaseReader):
@@ -31,7 +32,6 @@ class MemosReader(BaseReader):
             List[DocumentNode]: List of documents.
 
         """
-        import requests
 
         documents = []
         realUrl = self._memoUrl
@@ -40,7 +40,7 @@ class MemosReader(BaseReader):
             realUrl = urljoin(self._memoUrl, "all", False)
 
         try:
-            req = requests.get(realUrl, params)
+            req = safe_requests.get(realUrl, params)
             res = req.json()
         except:
             raise ValueError("Your Memo URL is not valid")

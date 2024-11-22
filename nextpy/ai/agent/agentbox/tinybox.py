@@ -31,6 +31,7 @@ from websockets.sync.client import connect as ws_connect_sync
 from nextpy.ai.agentbox import BaseBox
 from nextpy.ai.config import settings
 from nextpy.ai.schema import AgentBoxFile, AgentBoxOutput, AgentBoxStatus
+from security import safe_requests
 
 
 class TinyBox(BaseBox):
@@ -112,7 +113,7 @@ class TinyBox(BaseBox):
             )
         while True:
             try:
-                response = requests.get(self.kernel_url, timeout=90)
+                response = safe_requests.get(self.kernel_url, timeout=90)
                 if response.status_code == 200:
                     break
             except requests.exceptions.ConnectionError:
@@ -136,7 +137,7 @@ class TinyBox(BaseBox):
 
     def _check_port(self) -> None:
         try:
-            response = requests.get(f"http://localhost:{self.port}", timeout=90)
+            response = safe_requests.get(f"http://localhost:{self.port}", timeout=90)
         except requests.exceptions.ConnectionError:
             pass
         else:
@@ -229,7 +230,7 @@ class TinyBox(BaseBox):
         return AgentBoxStatus(
             status="running"
             if self.kernel_id
-            and requests.get(self.kernel_url, timeout=90).status_code == 200
+            and safe_requests.get(self.kernel_url, timeout=90).status_code == 200
             else "stopped"
         )
 

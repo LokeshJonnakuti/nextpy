@@ -7,11 +7,10 @@ A loader that fetches any remote page or file by URL and retrieves child pages w
 """
 from typing import Any, Dict, List, Optional, Union
 
-import requests
-
 from nextpy.ai import download_loader
 from nextpy.ai.rag.document_loaders.basereader import BaseReader
 from nextpy.ai.schema import DocumentNode
+from security import safe_requests
 
 
 class RemoteDepthReader(BaseReader):
@@ -84,7 +83,7 @@ class RemoteDepthReader(BaseReader):
         from bs4 import BeautifulSoup
 
         """Get all links from a page."""
-        page = requests.get(url)
+        page = safe_requests.get(url)
         soup = BeautifulSoup(page.content, "html.parser")
 
         links = soup.find_all("a")

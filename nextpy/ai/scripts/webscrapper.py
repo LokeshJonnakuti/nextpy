@@ -4,10 +4,9 @@
 import random
 import re
 from typing import Type
-
-import requests
 from bs4 import BeautifulSoup
 from pydantic import BaseModel, Field
+from security import safe_requests
 
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
@@ -51,7 +50,7 @@ class WebScraperTool(BaseTool):
     def extract_with_bs4(self, url):
         headers = {"User-Agent": random.choice(USER_AGENTS)}
         try:
-            response = requests.get(url, headers=headers, timeout=10)
+            response = safe_requests.get(url, headers=headers, timeout=10)
             if response.status_code == 200:
                 soup = BeautifulSoup(response.text, "html.parser")
                 for tag in soup(
